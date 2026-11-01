@@ -29,11 +29,11 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/api/health', (req, res) => {
-  res.json({ ok: true, app: 'SUKUNA V1000', status: botStatus, qr: !!qrCode });
+  res.json({ ok: true, app: 'SUKUNA', status: botStatus, qr: !!qrCode });
 });
 
 app.get('/api/status', (req, res) => {
-  res.json({ app: 'SUKUNA V1000', status: botStatus, qrCode: qrCode || null, port });
+  res.json({ app: 'SUKUNA', status: botStatus, qrCode: qrCode || null, port });
 });
 
 app.get('/api/qr', (req, res) => {
@@ -103,7 +103,7 @@ async function handleCommands(msg, from, groupId, messageText, sender) {
   const command = text.toLowerCase();
 
   if (command === '!menu' || command === '/menu' || command === '!help' || command === '/help') {
-    const help = `SUKUNA V1000\n\nCommands:\n!menu\n!status\n!suspend\n!resume\n!sticker\n!ban\n!unban\n!kick\n!info`;
+    const help = `SUKUNA\n\nCommands:\n!menu\n!status\n!suspend\n!resume\n!sticker\n!ban\n!unban\n!kick\n!info`;
     await sock.sendMessage(from, { text: help });
     return;
   }
@@ -213,7 +213,7 @@ async function handleCommands(msg, from, groupId, messageText, sender) {
 
   if (command === '!info') {
     await sock.sendMessage(from, {
-      text: 'SUKUNA V1000\nType: WhatsApp bot\nFeatures: admin, stickers, suspension, command system\nBan system: active'
+      text: 'SUKUNA\nType: WhatsApp bot\nFeatures: admin, stickers, suspension, command system\nBan system: active'
     });
     return;
   }
@@ -227,7 +227,7 @@ async function startWhatsAppBot() {
     version,
     printQRInTerminal: false,
     auth: state,
-    browser: ['SUKUNA V1000', 'Chrome', '1.0.0']
+    browser: ['SUKUNA', 'Chrome', '1.0.0']
   });
 
   sock.ev.on('connection.update', async (update) => {
@@ -303,7 +303,7 @@ async function startWhatsAppBot() {
 }
 
 app.listen(port, async () => {
-  console.log(`SUKUNA V1000 server running on http://localhost:${port}`);
+  console.log(`SUKUNA server running on http://localhost:${port}`);
   try {
     await startWhatsAppBot();
   } catch (error) {
