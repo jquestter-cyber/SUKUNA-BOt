@@ -19,9 +19,9 @@ let sock = null;
 
 const suspendedGroups = new Set();
 const bannedUsers = new Set([
-  '+50935834477',
-  '50935834477',
-  '50935834477@s.whatsapp.net'
+  '+50941021883',
+  '50941021883',
+  '50941021883@s.whatsapp.net'
 ]);
 const botAdmins = new Set(['276*******@s.whatsapp.net']);
 
@@ -146,7 +146,7 @@ async function handleCommands(msg, from, groupId, messageText, sender) {
 
     const targetRaw = text.split(/\s+/).slice(1).join(' ').trim();
     if (!targetRaw) {
-      await sock.sendMessage(from, { text: 'Use: !kick +50935834477 or !kick 50935834477@s.whatsapp.net' });
+      await sock.sendMessage(from, { text: 'Use: !kick +50941021883 or !kick 50941021883@s.whatsapp.net' });
       return;
     }
 
@@ -265,7 +265,10 @@ async function startWhatsAppBot() {
       const sender = msg.key.participant || msg.key.remoteJid;
       const text = msg.message?.conversation || msg.message?.extendedTextMessage?.text || '';
 
+      console.log('DEBUG SENDER:', { from, sender, groupId, text });
+
       if (isBlockedUser(sender)) {
+        console.log('BLOCKED USER DETECTED:', sender);
         await sock.sendMessage(from, { text: '⏱️⏳ Ou nan lis bann lan. Ou pa ka voye mesaj ankò.' });
         continue;
       }
