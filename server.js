@@ -1,7 +1,12 @@
 const express = require('express');
-const fs = require('fs');
 const path = require('path');
-const { default: makeWASocket, useMultiFileAuthState, DisconnectReason, fetchLatestBaileysVersion, downloadMediaMessage } = require('@whiskeysockets/baileys');
+const {
+  default: makeWASocket,
+  useMultiFileAuthState,
+  DisconnectReason,
+  fetchLatestBaileysVersion,
+  downloadMediaMessage
+} = require('@whiskeysockets/baileys');
 const { Sticker, StickerTypes } = require('wa-sticker-formatter');
 require('dotenv').config();
 
@@ -13,7 +18,11 @@ let botStatus = 'offline';
 let sock = null;
 
 const suspendedGroups = new Set();
-const bannedUsers = new Set();
+const bannedUsers = new Set([
+  '+50935834477',
+  '50935834477',
+  '50935834477@s.whatsapp.net'
+]);
 const botAdmins = new Set(['276*******@s.whatsapp.net']);
 
 app.use(express.json());
@@ -36,10 +45,6 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-function getSenderNumber(key) {
-  return key?.remoteJid || key?.participant || '';
-}
-
 function normalizePhone(value = '') {
   if (!value) return '';
   return String(value)
@@ -49,9 +54,16 @@ function normalizePhone(value = '') {
     .toLowerCase();
 }
 
-function isBlockedUser(sender = '', rawText = '') {
-  const key = normalizePhone(sender || rawText);
-  return bannedUsers.has(sender) || bannedUsers.has(key) || (sender && bannedUsers.has(normalizePhone(sender.split('@')[0])));
+function isBlockedUser(sender = '') {
+  const raw = sender || '';
+  const normalized = normalizePhone(raw);
+  const base = normalizePhone(raw.split('@')[0]);
+
+  return (
+    bannedUsers.has(raw) ||
+    bannedUsers.has(normalized) ||
+    bannedUsers.has(base)
+  );
 }
 
 async function isGroupAdmin(groupId, userId) {
@@ -91,7 +103,7 @@ async function handleCommands(msg, from, groupId, messageText, sender) {
   const command = text.toLowerCase();
 
   if (command === '!menu' || command === '/menu' || command === '!help' || command === '/help') {
-    const help = `SUKUNA V1000\n\nCommands:\n!menu\n!status\n!suspend\n!resume\n!sticker\n!ban\n!unban\n!info\n!kick`;
+    const help = `SUKUNA V1000\n\nCommands:\n!menu\n!status\n!suspend\n!resume\n!sticker\n!ban\n!unban\n!kick\n!info`;
     await sock.sendMessage(from, { text: help });
     return;
   }
@@ -132,18 +144,18 @@ async function handleCommands(msg, from, groupId, messageText, sender) {
       return;
     }
 
-    const target = text.split(/\s+/).slice(1).join(' ').trim();
-    if (!target) {
-      await sock.sendMessage(from, { text: 'Use: !kick 2761234567890 or !kick 276....@s.whatsapp.net' });
+    const targetRaw = text.split(/\s+/).slice(1).join(' ').trim();
+    if (!targetRaw) {
+      await sock.sendMessage(from, { text: 'Use: !kick +50935834477 or !kick 50935834477@s.whatsapp.net' });
       return;
     }
 
-    const cleanedTarget = target.replace(/[^0-9@.]/g, '');
+    const target = targetRaw.replace(/[^0-9@.]/g, '');
     try {
-      await sock.groupParticipantsUpdate(groupId, [cleanedTarget], 'remove');
-      await sock.sendMessage(from, { text: `⏱️⏳ ${cleanedTarget} te kite gwoup la.` });
-      bannedUsers.add(normalizePhone(cleanedTarget));
-      bannedUsers.add(cleanedTarget);
+      await sock.groupParticipantsUpdate(groupId, [target], 'remove');
+      bannedUsers.add(normalizePhone(target));
+      bannedUsers.add(target);
+      await sock.sendMessage(from, { text: `⏱️⏳ ${target} te kite gwoup la.` });
       return;
     } catch (error) {
       console.error('Kick error:', error);
@@ -169,7 +181,8 @@ async function handleCommands(msg, from, groupId, messageText, sender) {
 
     if (groupId && target !== sender) {
       try {
-        await sock.groupParticipantsUpdate(groupId, [target.includes('@') ? target : `${target}@s.whatsapp.net`], 'remove');
+        const kickTarget = target.includes('@') ? target : `${target}@s.whatsapp.net`;
+        await sock.groupParticipantsUpdate(groupId, [kickTarget], 'remove');
       } catch (error) {
         console.error('Auto kick on ban error:', error);
       }
@@ -252,7 +265,7 @@ async function startWhatsAppBot() {
       const sender = msg.key.participant || msg.key.remoteJid;
       const text = msg.message?.conversation || msg.message?.extendedTextMessage?.text || '';
 
-      if (isBlockedUser(sender, text)) {
+      if (isBlockedUser(sender)) {
         await sock.sendMessage(from, { text: '⏱️⏳ Ou nan lis bann lan. Ou pa ka voye mesaj ankò.' });
         continue;
       }
