@@ -1,56 +1,368 @@
-# SUKUNA V1000
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SUKUNA V1000</title>
+    <style>
+      :root {
+        --bg: #07111f;
+        --bg-alt: #0d1a2d;
+        --panel: rgba(17, 27, 43, 0.9);
+        --panel-strong: #101f34;
+        --primary: #4cc9f0;
+        --primary-2: #7b2ff7;
+        --accent: #00f5d4;
+        --text: #e9f3ff;
+        --muted: #a8b9d6;
+        --border: rgba(255, 255, 255, 0.08);
+        --shadow: 0 20px 50px rgba(0, 0, 0, 0.38);
+      }
 
-SUKUNA V1000 is a powerful WhatsApp bot starter with:
+      * { box-sizing: border-box; }
 
-- admin commands
-- group suspension control
-- sticker creation from images
-- live status endpoints
-- modern landing page
+      html { scroll-behavior: smooth; }
 
-## Features
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background:
+          radial-gradient(circle at top left, rgba(123, 47, 247, 0.25), transparent 30%),
+          radial-gradient(circle at bottom right, rgba(76, 201, 240, 0.18), transparent 30%),
+          var(--bg);
+        color: var(--text);
+      }
 
-- `!menu` — show commands
-- `!status` — status of bot
-- `!suspend` — suspend a group
-- `!resume` — resume a group
-- `!sticker` from image caption — convert image to sticker
-- bot health endpoint
+      a { text-decoration: none; }
 
-## Install
+      .container {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+      }
 
-```bash
-npm install
-```
+      header {
+        padding: 24px 0 12px;
+      }
 
-## Run
+      .nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        border: 1px solid var(--border);
+        background: rgba(15, 24, 38, 0.7);
+        backdrop-filter: blur(10px);
+        border-radius: 18px;
+        padding: 16px 22px;
+        box-shadow: var(--shadow);
+      }
 
-```bash
-npm start
-```
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+      }
 
-Then open:
+      .brand-mark {
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(135deg, var(--primary), var(--primary-2));
+        color: #04131d;
+        font-weight: 900;
+      }
 
-```bash
-http://localhost:3000
-```
+      .nav-links {
+        display: flex;
+        gap: 22px;
+        align-items: center;
+        color: var(--muted);
+        font-size: 0.96rem;
+      }
 
-Scan the QR code in terminal with WhatsApp.
+      .nav-links a { color: var(--muted); }
 
-## Sticker command
+      .btn {
+        display: inline-block;
+        padding: 12px 20px;
+        border-radius: 999px;
+        border: 1px solid transparent;
+        font-weight: 700;
+        transition: transform 0.2s ease, opacity 0.2s ease;
+      }
 
-Send an image with caption:
+      .btn:hover { transform: translateY(-1px); }
 
-```bash
-!sticker
-```
+      .btn-primary {
+        background: linear-gradient(135deg, var(--primary), var(--primary-2));
+        color: #03131e;
+      }
 
-The bot will convert it into a WhatsApp sticker.
+      .btn-secondary {
+        border: 1px solid var(--border);
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.02);
+      }
 
-## Notes
+      .hero {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        align-items: center;
+        gap: 32px;
+        min-height: 70vh;
+        padding: 50px 0 30px;
+      }
 
-This is a starter bot. You can extend it with AI, database, anti-spam, and dashboard features.
+      .badge {
+        display: inline-block;
+        background: rgba(76, 201, 240, 0.12);
+        border: 1px solid rgba(76, 201, 240, 0.35);
+        color: var(--primary);
+        border-radius: 999px;
+        padding: 8px 12px;
+        font-size: 0.8rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+      }
 
-## License
+      h1 {
+        font-size: clamp(2.6rem, 5vw, 5rem);
+        line-height: 0.98;
+        margin: 0 0 18px;
+      }
 
-MIT
+      .lead {
+        color: var(--muted);
+        font-size: 1.08rem;
+        line-height: 1.8;
+        max-width: 620px;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: 28px;
+      }
+
+      .hero-card {
+        background: linear-gradient(180deg, rgba(16, 31, 52, 0.9), rgba(8, 15, 27, 0.9));
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        padding: 24px 22px;
+        box-shadow: var(--shadow);
+      }
+
+      .status {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: rgba(0, 245, 212, 0.08);
+        color: var(--accent);
+        border: 1px solid rgba(0, 245, 212, 0.25);
+        padding: 8px 12px;
+        border-radius: 999px;
+        font-size: 0.82rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+      }
+
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--accent);
+        box-shadow: 0 0 20px rgba(0, 245, 212, 0.8);
+      }
+
+      .command-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        gap: 12px;
+      }
+
+      .command-list li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 14px;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        color: var(--muted);
+      }
+
+      .command-list strong {
+        color: var(--text);
+      }
+
+      .section {
+        padding: 30px 0 80px;
+      }
+
+      h2 {
+        font-size: clamp(2rem, 3vw, 2.7rem);
+        margin: 0 0 24px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 22px;
+      }
+
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 24px 22px;
+        box-shadow: var(--shadow);
+      }
+
+      .card h3 {
+        margin: 0 0 10px;
+        font-size: 1.15rem;
+      }
+
+      .card p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .cta {
+        padding: 26px 24px;
+        background: linear-gradient(135deg, rgba(76, 201, 240, 0.12), rgba(123, 47, 247, 0.14));
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 24px;
+        margin-bottom: 60px;
+      }
+
+      .cta p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 22px 0 44px;
+        color: var(--muted);
+        text-align: center;
+      }
+
+      @media (max-width: 860px) {
+        .hero {
+          grid-template-columns: 1fr;
+          padding-top: 40px;
+        }
+
+        .grid {
+          grid-template-columns: 1fr;
+        }
+
+        .cta {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .nav {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .nav-links {
+          flex-wrap: wrap;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <nav class="nav">
+          <div class="brand">
+            <div class="brand-mark">S</div>
+            <span>SUKUNA V1000</span>
+          </div>
+
+          <div class="nav-links">
+            <a href="#features">Fonctionnalités</a>
+            <a href="#commands">Commandes</a>
+            <a href="https://github.com/jquestter-cyber/SUKUNA-BOt" target="_blank" rel="noreferrer">GitHub</a>
+          </div>
+        </nav>
+      </header>
+
+      <main>
+        <section class="hero">
+          <div>
+            <span class="badge">WhatsApp Bot</span>
+            <h1>SUKUNA V1000</h1>
+            <p class="lead">
+              Un bot WhatsApp prêt à l’emploi, pensé pour gérer les commandes, les groupes,
+              les permissions admin, les stickers et le suivi des états du bot.
+            </p>
+
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#features">Découvrir</a>
+              <a class="btn btn-secondary" href="https://github.com/jquestter-cyber/SUKUNA-BOt" target="_blank" rel="noreferrer">Voir le projet</a>
+            </div>
+          </div>
+
+          <div class="hero-card" id="commands">
+            <div class="status"><span class="dot"></span> Prêt à démarrer</div>
+            <ul class="command-list">
+              <li><strong>!menu</strong><span>Afficher les commandes</span></li>
+              <li><strong>!status</strong><span>Vérifier l’état du bot</span></li>
+              <li><strong>!suspend</strong><span>Suspendre un groupe</span></li>
+              <li><strong>!resume</strong><span>Relancer un groupe</span></li>
+              <li><strong>!sticker</strong><span>Créer un sticker depuis une image</span></li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="section" id="features">
+          <h2>Fonctionnalités clés</h2>
+          <div class="grid">
+            <div class="card">
+              <h3>Admin commands</h3>
+              <p>Contrôle précis des commandes administrateur et gestion simple des groupes.</p>
+            </div>
+            <div class="card">
+              <h3>Sticker creator</h3>
+              <p>Transforme une image envoyée avec une commande en sticker WhatsApp.</p>
+            </div>
+            <div class="card">
+              <h3>Live status</h3>
+              <p>Endpoints pour surveiller l’état du bot, le statut QR et le bon fonctionnement.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="cta">
+          <div>
+            <h3>Un bot moderne, simple et extensible.</h3>
+            <p>Idéal pour démarrer un projet WhatsApp avec architecture légère et commandes prêtes.</p>
+          </div>
+          <a class="btn btn-primary" href="https://github.com/jquestter-cyber/SUKUNA-BOt" target="_blank" rel="noreferrer">Accéder au dépôt</a>
+        </section>
+      </main>
+
+      <footer>
+        © 2026 SUKUNA V1000 — WhatsApp Bot Starter
+      </footer>
+    </div>
+  </body>
+</html>
