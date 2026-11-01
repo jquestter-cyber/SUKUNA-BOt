@@ -1,7 +1,7 @@
 {
   "name": "sukuna-bot",
   "version": "1.0.0",
-  "description": "SUKUNA WhatsApp Bot starter project",
+  "description": "SUKUNA V1000 WhatsApp Bot",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -11,7 +11,9 @@
     "whatsapp",
     "bot",
     "sukuna",
-    "express"
+    "v1000",
+    "sticker",
+    "admin"
   ],
   "author": "jquestter-cyber",
   "license": "MIT",
@@ -19,6 +21,7 @@
     "@whiskeysockets/baileys": "^6.7.18",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "pino": "^9.2.0"
+    "pino": "^9.2.0",
+    "wa-sticker-formatter": "^4.6.0"
   }
 }

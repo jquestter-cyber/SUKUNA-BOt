@@ -1,310 +1,56 @@
-<!DOCTYPE html>
-<html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SUKUNA BOT</title>
-    <style>
-      :root {
-        --bg: #070707;
-        --panel: #111111;
-        --panel-2: #1b1b1b;
-        --text: #f5f5f5;
-        --muted: #a1a1a1;
-        --accent: #d4af37;
-        --accent-2: #8b5e3c;
-      }
+# SUKUNA V1000
 
-      * { box-sizing: border-box; }
+SUKUNA V1000 is a powerful WhatsApp bot starter with:
 
-      body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: linear-gradient(180deg, #050505 0%, #0d0d0d 100%);
-        color: var(--text);
-        min-height: 100vh;
-      }
+- admin commands
+- group suspension control
+- sticker creation from images
+- live status endpoints
+- modern landing page
 
-      .container {
-        width: min(1100px, 90%);
-        margin: 0 auto;
-        padding: 48px 0 80px;
-      }
+## Features
 
-      .topbar {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 16px;
-        margin-bottom: 40px;
-      }
+- `!menu` — show commands
+- `!status` — status of bot
+- `!suspend` — suspend a group
+- `!resume` — resume a group
+- `!sticker` from image caption — convert image to sticker
+- bot health endpoint
 
-      .brand {
-        font-size: 1.4rem;
-        letter-spacing: 3px;
-        font-weight: bold;
-        color: var(--accent);
-      }
+## Install
 
-      .status-pill {
-        background: rgba(212, 175, 55, 0.08);
-        border: 1px solid rgba(212, 175, 55, 0.45);
-        color: var(--text);
-        padding: 10px 16px;
-        border-radius: 999px;
-        font-size: 0.85rem;
-        letter-spacing: 1.5px;
-      }
+```bash
+npm install
+```
 
-      .hero {
-        display: grid;
-        grid-template-columns: 1.2fr 0.8fr;
-        gap: 28px;
-        align-items: center;
-        padding: 40px 0 20px;
-      }
+## Run
 
-      .badge {
-        display: inline-block;
-        background: rgba(255,255,255,0.04);
-        border: 1px solid rgba(255,255,255,0.12);
-        color: var(--muted);
-        border-radius: 999px;
-        padding: 8px 14px;
-        font-size: 0.75rem;
-        letter-spacing: 2px;
-        margin-bottom: 20px;
-      }
+```bash
+npm start
+```
 
-      h1 {
-        font-size: clamp(2.5rem, 5vw, 5rem);
-        line-height: 1;
-        margin: 0 0 16px;
-        letter-spacing: 4px;
-      }
+Then open:
 
-      .title-accent {
-        color: var(--accent);
-        text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
-      }
+```bash
+http://localhost:3000
+```
 
-      .subtitle {
-        color: var(--muted);
-        font-size: 1.08rem;
-        line-height: 1.8;
-        max-width: 620px;
-      }
+Scan the QR code in terminal with WhatsApp.
 
-      .cta-row {
-        margin-top: 26px;
-        display: flex;
-        gap: 14px;
-        flex-wrap: wrap;
-      }
+## Sticker command
 
-      .btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 180px;
-        padding: 15px 22px;
-        border-radius: 12px;
-        text-decoration: none;
-        font-weight: bold;
-        transition: 0.2s ease;
-      }
+Send an image with caption:
 
-      .btn-primary {
-        background: linear-gradient(135deg, var(--accent), var(--accent-2));
-        color: #0f0f0f;
-      }
+```bash
+!sticker
+```
 
-      .btn-secondary {
-        background: rgba(255,255,255,0.04);
-        border: 1px solid rgba(255,255,255,0.12);
-        color: var(--text);
-      }
+The bot will convert it into a WhatsApp sticker.
 
-      .btn:hover {
-        transform: translateY(-2px);
-      }
+## Notes
 
-      .panel {
-        background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-        border: 1px solid rgba(255,255,255,0.08);
-        border-radius: 24px;
-        padding: 24px;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.28);
-      }
+This is a starter bot. You can extend it with AI, database, anti-spam, and dashboard features.
 
-      .card-box {
-        display: grid;
-        gap: 18px;
-      }
+## License
 
-      .mini-card {
-        background: var(--panel-2);
-        border: 1px solid rgba(255,255,255,0.06);
-        border-radius: 18px;
-        padding: 18px;
-      }
-
-      .mini-card h3 {
-        margin: 0 0 8px;
-        font-size: 0.9rem;
-        letter-spacing: 2px;
-        color: var(--muted);
-      }
-
-      .mini-card strong {
-        display: block;
-        font-size: 1.8rem;
-        color: var(--text);
-      }
-
-      .feature-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 18px;
-        margin-top: 36px;
-      }
-
-      .feature {
-        padding: 22px 18px;
-        border-radius: 18px;
-        background: rgba(255,255,255,0.02);
-        border: 1px solid rgba(255,255,255,0.08);
-      }
-
-      .feature h3 {
-        margin: 0 0 10px;
-        font-size: 1.05rem;
-      }
-
-      .feature p {
-        margin: 0;
-        color: var(--muted);
-        line-height: 1.7;
-      }
-
-      .status-box {
-        margin-top: 28px;
-        padding: 20px 22px;
-        background: rgba(255,255,255,0.02);
-        border: 1px solid rgba(255,255,255,0.08);
-        border-radius: 16px;
-      }
-
-      .status-box small {
-        color: var(--muted);
-        letter-spacing: 1.8px;
-        text-transform: uppercase;
-      }
-
-      .status-box strong {
-        display: block;
-        margin-top: 10px;
-        font-size: 1.4rem;
-      }
-
-      @media (max-width: 760px) {
-        .hero,
-        .feature-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .topbar {
-          flex-direction: column;
-          align-items: flex-start;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <div class="topbar">
-        <div class="brand">SUKUNA</div>
-        <div class="status-pill" id="statusPill">STATUS: BOOTING</div>
-      </div>
-
-      <section class="hero">
-        <div>
-          <div class="badge">WHATSAPP AUTOMATION</div>
-          <h1><span class="title-accent">SUKUNA</span> BOT</h1>
-          <p class="subtitle">
-            SUKUNA BOT is a modern WhatsApp bot starter designed for automation, messaging, and fast deployment.
-            It includes a web landing page, backend API, and a WhatsApp session layer ready to extend.
-          </p>
-
-          <div class="cta-row">
-            <a class="btn btn-primary" href="https://github.com/jquestter-cyber/SUKUNA-BOt" target="_blank" rel="noreferrer">VIEW REPO</a>
-            <a class="btn btn-secondary" href="#features">VIEW FEATURES</a>
-          </div>
-        </div>
-
-        <div class="panel">
-          <div class="card-box">
-            <div class="mini-card">
-              <h3>BOT MODE</h3>
-              <strong>ONLINE</strong>
-            </div>
-            <div class="mini-card">
-              <h3>STATUS</h3>
-              <strong id="botStatusValue">LOADING</strong>
-            </div>
-            <div class="mini-card">
-              <h3>READY</h3>
-              <strong>YES</strong>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <div class="status-box">
-        <small>System status</small>
-        <strong id="systemStatusText">Checking runtime...</strong>
-      </div>
-
-      <section id="features" class="feature-grid">
-        <div class="feature">
-          <h3>WhatsApp Ready</h3>
-          <p>Built with a practical WhatsApp bot starter using session-based authentication and real-time message handling.</p>
-        </div>
-        <div class="feature">
-          <h3>Express Backend</h3>
-          <p>Simple API endpoints for health checks, status monitoring, and easy extension as your bot grows.</p>
-        </div>
-        <div class="feature">
-          <h3>Modern Frontend</h3>
-          <p>Clean design, responsive layout, and a web presence that looks professional for GitHub Pages or hosting.</p>
-        </div>
-      </section>
-    </div>
-
-    <script>
-      async function fetchStatus() {
-        try {
-          const res = await fetch('/api/health');
-          const data = await res.json();
-
-          const statusText = data.status ? data.status.toUpperCase() : 'UNKNOWN';
-          const statusPill = document.getElementById('statusPill');
-          const botStatusValue = document.getElementById('botStatusValue');
-          const systemStatusText = document.getElementById('systemStatusText');
-
-          statusPill.textContent = 'STATUS: ' + statusText;
-          botStatusValue.textContent = statusText;
-          systemStatusText.textContent = data.ok ? 'Bot runtime is healthy and responding.' : 'Bot runtime did not respond.';
-        } catch (error) {
-          console.error(error);
-          document.getElementById('statusPill').textContent = 'STATUS: OFFLINE';
-          document.getElementById('botStatusValue').textContent = 'OFFLINE';
-          document.getElementById('systemStatusText').textContent = 'Awaiting server startup or runtime issue.';
-        }
-      }
-
-      fetchStatus();
-      setInterval(fetchStatus, 5000);
-    </script>
-  </body>
-</html>
+MIT
