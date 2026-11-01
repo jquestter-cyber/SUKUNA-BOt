@@ -1,0 +1,24 @@
+{
+  "name": "sukuna-bot",
+  "version": "1.0.0",
+  "description": "SUKUNA WhatsApp Bot starter project",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "whatsapp",
+    "bot",
+    "sukuna",
+    "express"
+  ],
+  "author": "jquestter-cyber",
+  "license": "MIT",
+  "dependencies": {
+    "@whiskeysockets/baileys": "^6.7.18",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "pino": "^9.2.0"
+  }
+}

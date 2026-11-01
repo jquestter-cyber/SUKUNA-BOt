@@ -1,229 +1,310 @@
-
-
 <!DOCTYPE html>
-
-<html lang="ht">
-
-<head>
-
-  <meta charset="UTF-8">
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>SUKUNA BOT V1000</title>
-
-  <style>
-
-    * {
-
-      margin: 0;
-
-      padding: 0;
-
-      box-sizing: border-box;
-
-    }
-
-    body {
-
-      background: #050505;
-
-      color: white;
-
-      font-family: Arial, sans-serif;
-
-      text-align: center;
-
-      min-height: 100vh;
-
-    }
-
-    .container {
-
-      padding: 35px 20px;
-
-      max-width: 600px;
-
-      margin: auto;
-
-    }
-
-    .image-box {
-
-      width: 100%;
-
-      height: 280px;
-
-      border: 1px solid #444;
-
-      border-radius: 15px;
-
-      background: linear-gradient(145deg, #222, #050505);
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: center;
-
-      margin-bottom: 25px;
-
-      overflow: hidden;
-
-    }
-
-    .image-box img {
-
-      width: 100%;
-
-      height: 100%;
-
-      object-fit: cover;
-
-    }
-
-    h1 {
-
-      font-size: 30px;
-
-      color: #eeeeee;
-
-      letter-spacing: 3px;
-
-      text-shadow: 0 0 15px #888;
-
-      margin-bottom: 12px;
-
-    }
-
-    .subtitle {
-
-      color: #888;
-
-      letter-spacing: 4px;
-
-      margin-bottom: 30px;
-
-    }
-
-    .card {
-
-      background: #111;
-
-      border: 1px solid #333;
-
-      border-radius: 15px;
-
-      padding: 25px;
-
-      margin-top: 20px;
-
-    }
-
-    .card h2 {
-
-      color: #ddd;
-
-      margin-bottom: 15px;
-
-    }
-
-    .card p {
-
-      color: #999;
-
-      line-height: 1.7;
-
-    }
-
-    .button {
-
-      display: inline-block;
-
-      margin-top: 20px;
-
-      padding: 14px 28px;
-
-      background: #222;
-
-      color: white;
-
-      border: 1px solid #777;
-
-      border-radius: 8px;
-
-      text-decoration: none;
-
-      font-weight: bold;
-
-    }
-
-    .button:hover {
-
-      background: #444;
-
-    }
-
-    footer {
-
-      margin-top: 45px;
-
-      color: #555;
-
-      font-size: 12px;
-
-    }
-
-  </style>
-
-</head>
-
-<body>
-
-  <div class="container">
-
-    <div class="image-box">
-
-      <span style="color:#888; letter-spacing:5px;">
-
-        SUKUNA
-
-      </span>
-
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SUKUNA BOT</title>
+    <style>
+      :root {
+        --bg: #070707;
+        --panel: #111111;
+        --panel-2: #1b1b1b;
+        --text: #f5f5f5;
+        --muted: #a1a1a1;
+        --accent: #d4af37;
+        --accent-2: #8b5e3c;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(180deg, #050505 0%, #0d0d0d 100%);
+        color: var(--text);
+        min-height: 100vh;
+      }
+
+      .container {
+        width: min(1100px, 90%);
+        margin: 0 auto;
+        padding: 48px 0 80px;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 40px;
+      }
+
+      .brand {
+        font-size: 1.4rem;
+        letter-spacing: 3px;
+        font-weight: bold;
+        color: var(--accent);
+      }
+
+      .status-pill {
+        background: rgba(212, 175, 55, 0.08);
+        border: 1px solid rgba(212, 175, 55, 0.45);
+        color: var(--text);
+        padding: 10px 16px;
+        border-radius: 999px;
+        font-size: 0.85rem;
+        letter-spacing: 1.5px;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 28px;
+        align-items: center;
+        padding: 40px 0 20px;
+      }
+
+      .badge {
+        display: inline-block;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.12);
+        color: var(--muted);
+        border-radius: 999px;
+        padding: 8px 14px;
+        font-size: 0.75rem;
+        letter-spacing: 2px;
+        margin-bottom: 20px;
+      }
+
+      h1 {
+        font-size: clamp(2.5rem, 5vw, 5rem);
+        line-height: 1;
+        margin: 0 0 16px;
+        letter-spacing: 4px;
+      }
+
+      .title-accent {
+        color: var(--accent);
+        text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+      }
+
+      .subtitle {
+        color: var(--muted);
+        font-size: 1.08rem;
+        line-height: 1.8;
+        max-width: 620px;
+      }
+
+      .cta-row {
+        margin-top: 26px;
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 180px;
+        padding: 15px 22px;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: 0.2s ease;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        color: #0f0f0f;
+      }
+
+      .btn-secondary {
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.12);
+        color: var(--text);
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+      }
+
+      .panel {
+        background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 24px;
+        padding: 24px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.28);
+      }
+
+      .card-box {
+        display: grid;
+        gap: 18px;
+      }
+
+      .mini-card {
+        background: var(--panel-2);
+        border: 1px solid rgba(255,255,255,0.06);
+        border-radius: 18px;
+        padding: 18px;
+      }
+
+      .mini-card h3 {
+        margin: 0 0 8px;
+        font-size: 0.9rem;
+        letter-spacing: 2px;
+        color: var(--muted);
+      }
+
+      .mini-card strong {
+        display: block;
+        font-size: 1.8rem;
+        color: var(--text);
+      }
+
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+        margin-top: 36px;
+      }
+
+      .feature {
+        padding: 22px 18px;
+        border-radius: 18px;
+        background: rgba(255,255,255,0.02);
+        border: 1px solid rgba(255,255,255,0.08);
+      }
+
+      .feature h3 {
+        margin: 0 0 10px;
+        font-size: 1.05rem;
+      }
+
+      .feature p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .status-box {
+        margin-top: 28px;
+        padding: 20px 22px;
+        background: rgba(255,255,255,0.02);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 16px;
+      }
+
+      .status-box small {
+        color: var(--muted);
+        letter-spacing: 1.8px;
+        text-transform: uppercase;
+      }
+
+      .status-box strong {
+        display: block;
+        margin-top: 10px;
+        font-size: 1.4rem;
+      }
+
+      @media (max-width: 760px) {
+        .hero,
+        .feature-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .topbar {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="topbar">
+        <div class="brand">SUKUNA</div>
+        <div class="status-pill" id="statusPill">STATUS: BOOTING</div>
+      </div>
+
+      <section class="hero">
+        <div>
+          <div class="badge">WHATSAPP AUTOMATION</div>
+          <h1><span class="title-accent">SUKUNA</span> BOT</h1>
+          <p class="subtitle">
+            SUKUNA BOT is a modern WhatsApp bot starter designed for automation, messaging, and fast deployment.
+            It includes a web landing page, backend API, and a WhatsApp session layer ready to extend.
+          </p>
+
+          <div class="cta-row">
+            <a class="btn btn-primary" href="https://github.com/jquestter-cyber/SUKUNA-BOt" target="_blank" rel="noreferrer">VIEW REPO</a>
+            <a class="btn btn-secondary" href="#features">VIEW FEATURES</a>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="card-box">
+            <div class="mini-card">
+              <h3>BOT MODE</h3>
+              <strong>ONLINE</strong>
+            </div>
+            <div class="mini-card">
+              <h3>STATUS</h3>
+              <strong id="botStatusValue">LOADING</strong>
+            </div>
+            <div class="mini-card">
+              <h3>READY</h3>
+              <strong>YES</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="status-box">
+        <small>System status</small>
+        <strong id="systemStatusText">Checking runtime...</strong>
+      </div>
+
+      <section id="features" class="feature-grid">
+        <div class="feature">
+          <h3>WhatsApp Ready</h3>
+          <p>Built with a practical WhatsApp bot starter using session-based authentication and real-time message handling.</p>
+        </div>
+        <div class="feature">
+          <h3>Express Backend</h3>
+          <p>Simple API endpoints for health checks, status monitoring, and easy extension as your bot grows.</p>
+        </div>
+        <div class="feature">
+          <h3>Modern Frontend</h3>
+          <p>Clean design, responsive layout, and a web presence that looks professional for GitHub Pages or hosting.</p>
+        </div>
+      </section>
     </div>
 
-    <h1>꧁༺ SUKUNA ༻꧂</h1>
+    <script>
+      async function fetchStatus() {
+        try {
+          const res = await fetch('/api/health');
+          const data = await res.json();
 
-    <p class="subtitle">ULTRA PURGE V1000 ☠️</p>
+          const statusText = data.status ? data.status.toUpperCase() : 'UNKNOWN';
+          const statusPill = document.getElementById('statusPill');
+          const botStatusValue = document.getElementById('botStatusValue');
+          const systemStatusText = document.getElementById('systemStatusText');
 
-    <div class="card">
+          statusPill.textContent = 'STATUS: ' + statusText;
+          botStatusValue.textContent = statusText;
+          systemStatusText.textContent = data.ok ? 'Bot runtime is healthy and responding.' : 'Bot runtime did not respond.';
+        } catch (error) {
+          console.error(error);
+          document.getElementById('statusPill').textContent = 'STATUS: OFFLINE';
+          document.getElementById('botStatusValue').textContent = 'OFFLINE';
+          document.getElementById('systemStatusText').textContent = 'Awaiting server startup or runtime issue.';
+        }
+      }
 
-      <h2>WELCOME TO SUKUNA BOT</h2>
-
-      <p>
-
-        Welcome to the official SUKUNA BOT V1000 ULTRA PURGE.
-
-        Prepare yourself for the ultimate experience.
-
-      </p>
-
-      <a class="button" href="https://github.com/">
-
-        ENTER
-
-      </a>
-
-    </div>
-
-    <footer>
-
-      © 2026 SUKUNA BOT V1000 — ALL RIGHTS RESERVED
-
-    </footer>
-
-  </div>
-
-</body>
-
+      fetchStatus();
+      setInterval(fetchStatus, 5000);
+    </script>
+  </body>
 </html>
