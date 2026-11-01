@@ -29,11 +29,11 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/api/health', (req, res) => {
-  res.json({ ok: true, app: 'SUKUNA', status: botStatus, qr: !!qrCode });
+  res.json({ ok: true, app: '꧁༺『Sukuna』༻꧂', status: botStatus, qr: !!qrCode });
 });
 
 app.get('/api/status', (req, res) => {
-  res.json({ app: 'SUKUNA', status: botStatus, qrCode: qrCode || null, port });
+  res.json({ app: '꧁༺『Sukuna』༻꧂', status: botStatus, qrCode: qrCode || null, port });
 });
 
 app.get('/api/qr', (req, res) => {
@@ -77,7 +77,7 @@ async function isGroupAdmin(groupId, userId) {
   }
 }
 
-async function sendStickerFromImage(targetJid, imageBuffer, pack = 'SUKUNA', author = 'V1000') {
+async function sendStickerFromImage(targetJid, imageBuffer, pack = 'Sukuna', author = 'Sukuna') {
   try {
     const sticker = new Sticker(imageBuffer, {
       pack,
@@ -103,7 +103,7 @@ async function handleCommands(msg, from, groupId, messageText, sender) {
   const command = text.toLowerCase();
 
   if (command === '!menu' || command === '/menu' || command === '!help' || command === '/help') {
-    const help = `SUKUNA\n\nCommands:\n!menu\n!status\n!suspend\n!resume\n!sticker\n!ban\n!unban\n!kick\n!info`;
+    const help = `꧁༺『Sukuna』༻꧂\n\nCommands:\n!menu\n!status\n!suspend\n!resume\n!sticker\n!ban\n!unban\n!kick\n!info`;
     await sock.sendMessage(from, { text: help });
     return;
   }
@@ -213,7 +213,7 @@ async function handleCommands(msg, from, groupId, messageText, sender) {
 
   if (command === '!info') {
     await sock.sendMessage(from, {
-      text: 'SUKUNA\nType: WhatsApp bot\nFeatures: admin, stickers, suspension, command system\nBan system: active'
+      text: '꧁༺『Sukuna』༻꧂\nType: WhatsApp bot\nFeatures: admin, stickers, suspension, command system\nBan system: active'
     });
     return;
   }
@@ -227,7 +227,7 @@ async function startWhatsAppBot() {
     version,
     printQRInTerminal: false,
     auth: state,
-    browser: ['SUKUNA', 'Chrome', '1.0.0']
+    browser: ['꧁༺『Sukuna』༻꧂', 'Chrome', '1.0.0']
   });
 
   sock.ev.on('connection.update', async (update) => {
@@ -290,7 +290,7 @@ async function startWhatsAppBot() {
         const caption = (msg.message?.imageMessage?.caption || '').trim().toLowerCase();
         if (caption === '!sticker' || caption === '/sticker' || caption === '!s') {
           const media = await downloadMediaMessage(msg, 'buffer', {});
-          const ok = await sendStickerFromImage(from, media, 'SUKUNA', 'V1000');
+          const ok = await sendStickerFromImage(from, media, 'Sukuna', 'Sukuna');
           if (!ok) {
             await sock.sendMessage(from, { text: 'Sticker creation failed.' });
           }
@@ -303,7 +303,7 @@ async function startWhatsAppBot() {
 }
 
 app.listen(port, async () => {
-  console.log(`SUKUNA server running on http://localhost:${port}`);
+  console.log(`꧁༺『Sukuna』༻꧂ server running on http://localhost:${port}`);
   try {
     await startWhatsAppBot();
   } catch (error) {
