@@ -40,6 +40,20 @@ function getSenderNumber(key) {
   return key?.remoteJid || key?.participant || '';
 }
 
+function normalizePhone(value = '') {
+  if (!value) return '';
+  return String(value)
+    .replace(/\s+/g, '')
+    .replace(/\+/g, '')
+    .replace(/[^0-9@.]/g, '')
+    .toLowerCase();
+}
+
+function isBlockedUser(sender = '', rawText = '') {
+  const key = normalizePhone(sender || rawText);
+  return bannedUsers.has(sender) || bannedUsers.has(key) || (sender && bannedUsers.has(normalizePhone(sender.split('@')[0])));
+}
+
 async function isGroupAdmin(groupId, userId) {
   if (!sock || !groupId || !userId) return false;
   try {
@@ -77,7 +91,7 @@ async function handleCommands(msg, from, groupId, messageText, sender) {
   const command = text.toLowerCase();
 
   if (command === '!menu' || command === '/menu' || command === '!help' || command === '/help') {
-    const help = `SUKUNA V1000\n\nCommands:\n!menu\n!status\n!suspend\n!resume\n!sticker\n!ban\n!unban\n!info`;
+    const help = `SUKUNA V1000\n\nCommands:\n!menu\n!status\n!suspend\n!resume\n!sticker\n!ban\n!unban\n!info\n!kick`;
     await sock.sendMessage(from, { text: help });
     return;
   }
@@ -111,35 +125,82 @@ async function handleCommands(msg, from, groupId, messageText, sender) {
     return;
   }
 
-  if ((command === '!ban' || command === '!bann') && sender) {
+  if ((command === '!kick' || command === '!remove') && groupId) {
     const isAdmin = (await isGroupAdmin(groupId, sender)) || botAdmins.has(sender);
+    if (!isAdmin) {
+      await sock.sendMessage(from, { text: 'Only admin can kick users.' });
+      return;
+    }
+
+    const target = text.split(/\s+/).slice(1).join(' ').trim();
+    if (!target) {
+      await sock.sendMessage(from, { text: 'Use: !kick 2761234567890 or !kick 276....@s.whatsapp.net' });
+      return;
+    }
+
+    const cleanedTarget = target.replace(/[^0-9@.]/g, '');
+    try {
+      await sock.groupParticipantsUpdate(groupId, [cleanedTarget], 'remove');
+      await sock.sendMessage(from, { text: `⏱️⏳ ${cleanedTarget} te kite gwoup la.` });
+      bannedUsers.add(normalizePhone(cleanedTarget));
+      bannedUsers.add(cleanedTarget);
+      return;
+    } catch (error) {
+      console.error('Kick error:', error);
+      await sock.sendMessage(from, { text: 'Pa ka kite moun sa soti nan gwoup la.' });
+      return;
+    }
+  }
+
+  if ((command === '!ban' || command === '!bann') && sender) {
+    const isAdmin = groupId ? ((await isGroupAdmin(groupId, sender)) || botAdmins.has(sender)) : botAdmins.has(sender);
     if (!isAdmin) {
       await sock.sendMessage(from, { text: 'Only admin can ban users.' });
       return;
     }
 
-    const target = text.split(' ').slice(1)[0] || sender;
+    const targetRaw = text.split(/\s+/).slice(1).join(' ').trim();
+    const target = targetRaw || sender;
+    const normalized = normalizePhone(target);
+
     bannedUsers.add(target);
-    await sock.sendMessage(from, { text: `⏱️⏳ ${target} te ban.` });
+    bannedUsers.add(normalized);
+    bannedUsers.add(normalizePhone(target.split('@')[0]));
+
+    if (groupId && target !== sender) {
+      try {
+        await sock.groupParticipantsUpdate(groupId, [target.includes('@') ? target : `${target}@s.whatsapp.net`], 'remove');
+      } catch (error) {
+        console.error('Auto kick on ban error:', error);
+      }
+    }
+
+    await sock.sendMessage(from, { text: `⏱️⏳ ${target} te ban. Li pa ka voye mesaj ankò.` });
     return;
   }
 
   if ((command === '!unban' || command === '!unbann') && sender) {
-    const isAdmin = (await isGroupAdmin(groupId, sender)) || botAdmins.has(sender);
+    const isAdmin = groupId ? ((await isGroupAdmin(groupId, sender)) || botAdmins.has(sender)) : botAdmins.has(sender);
     if (!isAdmin) {
       await sock.sendMessage(from, { text: 'Only admin can unban users.' });
       return;
     }
 
-    const target = text.split(' ').slice(1)[0] || sender;
+    const targetRaw = text.split(/\s+/).slice(1).join(' ').trim();
+    const target = targetRaw || sender;
+    const normalized = normalizePhone(target);
+
     bannedUsers.delete(target);
+    bannedUsers.delete(normalized);
+    bannedUsers.delete(normalizePhone(target.split('@')[0]));
+
     await sock.sendMessage(from, { text: `${target} te de-ban.` });
     return;
   }
 
   if (command === '!info') {
     await sock.sendMessage(from, {
-      text: 'SUKUNA V1000\nType: WhatsApp bot\nFeatures: admin, stickers, suspension, command system'
+      text: 'SUKUNA V1000\nType: WhatsApp bot\nFeatures: admin, stickers, suspension, command system\nBan system: active'
     });
     return;
   }
@@ -191,18 +252,19 @@ async function startWhatsAppBot() {
       const sender = msg.key.participant || msg.key.remoteJid;
       const text = msg.message?.conversation || msg.message?.extendedTextMessage?.text || '';
 
-      if (bannedUsers.has(sender)) {
-        await sock.sendMessage(from, { text: '⏱️⏳ Ou ban. Ou pa ka voye mesaj ankò.' });
+      if (isBlockedUser(sender, text)) {
+        await sock.sendMessage(from, { text: '⏱️⏳ Ou nan lis bann lan. Ou pa ka voye mesaj ankò.' });
         continue;
       }
 
       if (groupId && suspendedGroups.has(groupId)) {
         const isAdmin = (await isGroupAdmin(groupId, sender)) || botAdmins.has(sender);
         if (!isAdmin) {
+          bannedUsers.add(normalizePhone(sender));
           bannedUsers.add(sender);
-          await sock.sendMessage(from, { text: '⏱️⏳ Gwoup sa suspendi. Moun sa te ban otomatikman paske li te voye mesaj nan gwoup suspann.' });
+          await sock.sendMessage(from, { text: '⏱️⏳ Gwoup sa suspendi. Ou te mete nan lis bann lan otomatikman.' });
+          continue;
         }
-        continue;
       }
 
       await handleCommands(msg, from, groupId, text, sender);
