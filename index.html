@@ -110,7 +110,7 @@
 
       .hero {
         display: grid;
-        grid-template-columns: 1.2fr 0.8fr;
+        grid-template-columns: 1.1fr 0.9fr;
         align-items: center;
         gap: 32px;
         min-height: 70vh;
@@ -150,12 +150,47 @@
         margin-top: 28px;
       }
 
-      .hero-card {
-        background: linear-gradient(180deg, rgba(16, 31, 52, 0.9), rgba(8, 15, 27, 0.9));
+      .hero-visual {
+        position: relative;
         border: 1px solid var(--border);
-        border-radius: 24px;
-        padding: 24px 22px;
+        border-radius: 28px;
+        overflow: hidden;
+        background: var(--panel);
         box-shadow: var(--shadow);
+      }
+
+      .hero-visual img {
+        display: block;
+        width: 100%;
+        height: 620px;
+        object-fit: cover;
+        filter: saturate(1.15) contrast(1.03);
+      }
+
+      .hero-caption {
+        position: absolute;
+        left: 18px;
+        right: 18px;
+        bottom: 18px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        background: rgba(5, 11, 22, 0.58);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 16px;
+        padding: 12px 14px;
+      }
+
+      .hero-caption strong {
+        display: block;
+        font-size: 0.98rem;
+      }
+
+      .hero-caption span {
+        color: var(--muted);
+        font-size: 0.8rem;
       }
 
       .status {
@@ -268,6 +303,10 @@
           padding-top: 40px;
         }
 
+        .hero-visual img {
+          height: 420px;
+        }
+
         .grid {
           grid-template-columns: 1fr;
         }
@@ -321,16 +360,30 @@
             </div>
           </div>
 
-          <div class="hero-card" id="commands">
-            <div class="status"><span class="dot"></span> Prêt à démarrer</div>
-            <ul class="command-list">
-              <li><strong>!menu</strong><span>Afficher les commandes</span></li>
-              <li><strong>!status</strong><span>Vérifier l’état du bot</span></li>
-              <li><strong>!suspend</strong><span>Suspendre un groupe</span></li>
-              <li><strong>!resume</strong><span>Relancer un groupe</span></li>
-              <li><strong>!sticker</strong><span>Créer un sticker depuis une image</span></li>
-            </ul>
+          <div class="hero-visual" aria-label="Image Sukuna style">
+            <img
+              src="https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=900&q=80"
+              alt="Sukuna-inspired anime art"
+            />
+            <div class="hero-caption">
+              <div>
+                <strong>SUKUNA V1000</strong>
+                <span>Power • Speed • Control</span>
+              </div>
+              <span>Live</span>
+            </div>
           </div>
+        </section>
+
+        <section class="section" id="commands">
+          <div class="status"><span class="dot"></span> Prêt à démarrer</div>
+          <ul class="command-list">
+            <li><strong>!menu</strong><span>Afficher les commandes</span></li>
+            <li><strong>!status</strong><span>Vérifier l’état du bot</span></li>
+            <li><strong>!suspend</strong><span>Suspendre un groupe</span></li>
+            <li><strong>!resume</strong><span>Relancer un groupe</span></li>
+            <li><strong>!sticker</strong><span>Créer un sticker depuis une image</span></li>
+          </ul>
         </section>
 
         <section class="section" id="features">
